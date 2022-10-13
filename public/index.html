@@ -5,6 +5,31 @@
 <meta charset="UTF-8">
 </head>
 <body>
+
+  <h1>Reading from the Graph API</h1>
+
+<p>Simple Graph API call to <code>/me</code> endpoint using the FB.api() SDK function.</p>
+
+<h2>Using FB.api()</h2>
+
+<div id="accountInfo" style="padding-top: 20px">You haven't logged in yet.</div>
+
+<script>
+  function basicAPIRequest() {
+    FB.api('/me?fields=name,picture', function(response) {
+      Log.info('API response', response);
+      document.getElementById('accountInfo').innerHTML = ('<img src="' + response.picture.data.url + '"> ' + response.name);
+    });
+  }
+  
+  FB.getLoginStatus(function(response) {
+    Log.info('Login Status', response);
+    if (response.status === 'connected') {
+      basicAPIRequest();
+    }
+  });
+</script>
+
 <script>
 
   function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
@@ -48,10 +73,14 @@
         'Thanks for logging in, ' + response.name + '!';
     });
     console.log('Fetching data from FB API.... ');
-    FB.api('/me?fields=id,name,accounts{link,followers_count}', function(response) {
+    FB.api('/me?fields=id,name,accounts{link,followers_count,fan_count}', function(response) {
       console.log(response);
-      document.getElementById('status').innerHTML =
-        'Accounts link : ' + response.accounts.data[0].link + '\n\nFollower count : ' + response.accounts.data[0].followers_count + ' ...';
+      document.getElementById('fb_id').innerHTML = 'FB ID : ' + response.id ;
+      document.getElementById('fb_name').innerHTML = 'FB Name : ' + response.name ;
+      document.getElementById('acc_id').innerHTML = 'Account ID : ' + response.accounts.data.id ;
+      document.getElementById('acc_link').innerHTML = 'Account Link : ' + response.accounts.data.link ;
+      document.getElementById('followers_count').innerHTML = 'Followers Count : ' + response.accounts.data.followers_count ;
+      document.getElementById('fan_count').innerHTML = 'Fan Count : ' + response.accounts.data.fan_count;
     });
   }
 
@@ -63,8 +92,12 @@
 <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
 </fb:login-button>
 
-<div id="status">
-</div>
+<div id="fb_id"></div>
+<div id="fb_name"></div>
+<div id="acc_id"></div>
+<div id="acc_link"></div>
+<div id="followers_count"></div>
+<div id="fan_count"></div>
 
 <!-- Load the JS SDK asynchronously -->
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
