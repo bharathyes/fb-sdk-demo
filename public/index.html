@@ -47,6 +47,12 @@
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
     });
+    console.log('Fetching data from FB API.... ');
+    FB.api('/me?fields=id,name,accounts{link,followers_count}', function(response) {
+      console.log(response);
+      document.getElementById('status').innerHTML =
+        'Accounts link : ' + response.accounts.data[0].link + '\n\nFollower count : ' + response.accounts.data[0].followers_count + ' ...';
+    });
   }
 
 </script>
