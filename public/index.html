@@ -73,14 +73,30 @@
         'Thanks for logging in, ' + response.name + '!';
     });
     console.log('Fetching data from FB API.... ');
+// {
+//   "error": {
+//     "message": "(#200) Application must be associated with a business. https://business.facebook.com/",
+//     "type": "OAuthException",
+//     "code": 200,
+//     "fbtrace_id": "Ar747p_d-W9nksRSH9CXG5r"
+//   }
+// }
+    // me?fields=id,name,
+    //      birthday,age_range,gender,                                    -- no data OAuth exception
+    //      accounts{link,followers_count,fan_count,artists_we_like},     -- data present
+    //      install_type,installed,is_guest_user,languages,               -- present
+    //      relationship_status,short_name,significant_other,
+    //      token_for_business,website,
+    //      business_users{business,id,two_fac_status}
+    // pages_show_list
     FB.api('/me?fields=id,name,accounts{link,followers_count,fan_count}', function(response) {
       console.log(response);
       document.getElementById('fb_id').innerHTML = 'FB ID : ' + response.id ;
       document.getElementById('fb_name').innerHTML = 'FB Name : ' + response.name ;
-      document.getElementById('acc_id').innerHTML = 'Account ID : ' + response.accounts.data[0].id ;
-      document.getElementById('acc_link').innerHTML = 'Account Link : ' + response.accounts.data[0].link ;
-      document.getElementById('followers_count').innerHTML = 'Followers Count : ' + response.accounts.data[0].followers_count ;
-      document.getElementById('fan_count').innerHTML = 'Fan Count : ' + response.accounts.data[0].fan_count;
+      document.getElementById('acc_id').innerHTML = 'Account ID : ' + response.accounts.data[2].id ;
+      document.getElementById('acc_link').innerHTML = 'Account Link : ' + response.accounts.data[2].link ;
+      document.getElementById('followers_count').innerHTML = 'Followers Count : ' + response.accounts.data[2].followers_count ;
+      document.getElementById('fan_count').innerHTML = 'Fan Count : ' + response.accounts.data[2].fan_count;
     });
   }
 
@@ -89,11 +105,12 @@
 
 <!-- The JS SDK Login Button -->
 
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+<fb:login-button scope="public_profile,email,pages_show_list" onlogin="checkLoginState();">
 </fb:login-button>
 
 <div id="fb_id"></div>
 <div id="fb_name"></div>
+<div id="fb_link"></div>
 <div id="acc_id"></div>
 <div id="acc_link"></div>
 <div id="followers_count"></div>
