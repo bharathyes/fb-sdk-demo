@@ -64,7 +64,7 @@
       statusChangeCallback(response);        // Returns the login status.
     });
   };
- 
+
   function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
@@ -77,10 +77,10 @@
       console.log(response);
       document.getElementById('fb_id').innerHTML = 'FB ID : ' + response.id ;
       document.getElementById('fb_name').innerHTML = 'FB Name : ' + response.name ;
-      document.getElementById('acc_id').innerHTML = 'Account ID : ' + response.accounts.data.id ;
-      document.getElementById('acc_link').innerHTML = 'Account Link : ' + response.accounts.data.link ;
-      document.getElementById('followers_count').innerHTML = 'Followers Count : ' + response.accounts.data.followers_count ;
-      document.getElementById('fan_count').innerHTML = 'Fan Count : ' + response.accounts.data.fan_count;
+      document.getElementById('acc_id').innerHTML = 'Account ID : ' + response.accounts.data[0].id ;
+      document.getElementById('acc_link').innerHTML = 'Account Link : ' + response.accounts.data[0].link ;
+      document.getElementById('followers_count').innerHTML = 'Followers Count : ' + response.accounts.data[0].followers_count ;
+      document.getElementById('fan_count').innerHTML = 'Fan Count : ' + response.accounts.data[0].fan_count;
     });
   }
 
